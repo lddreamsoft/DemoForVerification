@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldsoft.hlhh.web.dao.ActivityDAO">
+	<!-- namespace的作用是防止不同的xxxdao.xml中包含相同的标签id,因为即使是不同的xxxdao.xml，mybatis也不允许出现相同的sql语句id， 
+		否则mybatis不知道要调用哪个sql -->
+    
+    <update id="updateActivity">
+      update activities 
+         set name=#{name},startTime=date_format(#{startTime},'%Y-%m-%d %H-%i'),endTime=date_format(#{endTime},'%Y-%m-%d %H-%i'),
+             type=#{type},
+             times=#{times},tag=#{tag},description=#{description},
+             modifiedTime=now()
+       where id=#{id};
+    </update>
+
+	<delete id="deleteActivity">
+		delete from 
+		activities
+		where id=#{id};
+	</delete>
+
+	<insert id="insertActivity">
+		insert into
+		activities(name,startTime,endTime,type,times,tag,description)
+		values(#{name},#{startTime},#{endTime},#{type},#{times},#{tag},#{description});
+	</insert>
+
+	<select id="queryById" resultType="ldsoft.hlhh.web.entity.Activity">
+		select 
+		id,name,startTime,endTime,type,times,tag,description
+		from
+		activities
+		where id=#{id}
+		<if test="currentTime!=0">  
+		<!-- 当前时间不允许来自客户端，容易被伪造 -->
+		and now() BETWEEN startTime and endTime  
+        </if> 
+	</select>
+
+	<select id="queryAll" resultType="ldsoft.hlhh.web.entity.Activity">
+		select id,name,startTime,endTime,type,times,tag,description
+		from activities
+		order by createdTime desc
+		limit #{offset},#{limit}
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

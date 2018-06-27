@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldsoft.hlhh.web.dao.PrizeDAO">
+	<!-- namespace的作用是防止不同的xxxdao.xml中包含相同的标签id,因为即使是不同的xxxdao.xml，mybatis也不允许出现相同的sql语句id， 
+		否则mybatis不知道要调用哪个sql -->
+
+	<update id="updateOnlyPicturesOfPrize">
+      update prizes 
+         set pictures=#{pictures},modifiedTime=now()
+       where id=#{id};
+    </update>
+    
+    <update id="updatePrize" parameterType="Prize">
+      update prizes 
+         set orderNumber=#{orderNumber},name=#{name},pictures=#{pictures},description=#{description},limits=#{limits},
+        	 stock=#{stock},chance=#{chance},chance1=#{chance1},chance2=#{chance2},modifiedTime=now()
+       where id=#{id};
+    </update>
+
+	
+	<delete id="deletePrize">
+		delete from 
+		prizes
+		where id=#{id};
+	</delete>
+
+	<insert id="insertPrize" parameterType="Prize" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		prizes(orderNumber,name,pictures,description,limits,stock,chance,chance1,chance2)
+		values(#{orderNumber},#{name},#{pictures},#{description},#{limits},#{stock},#{chance},#{chance1},#{chance2});	
+		<selectKey resultType="int" order="AFTER" keyProperty="id">
+         select LAST_INSERT_ID() AS id
+     	</selectKey>	
+	</insert>
+	
+	<select id="queryById" resultType="Prize" parameterType="int">
+		select id,orderNumber,name,pictures,description,limits,stock,chance,chance1,chance2
+		  from prizes
+		 where id=#{id};
+	</select>
+
+	<select id="queryAll" resultType="Prize">
+		select id,orderNumber,name,pictures,description,limits,stock,chance,chance1,chance2
+		  from prizes
+      order by createdTime desc
+		 limit #{offset},#{limit}
+	</select>
+	
+	<select id="selectAvailablePrizes" resultType="Prize">
+		select pictures
+		  from activitiesprizes a
+    inner join prizes b on a.prizeID=b.id
+ 		 where a.activityID=#{activityID} 
+		   and b.stock>0 and b.chance>0
+      order by b.modifiedTime desc
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

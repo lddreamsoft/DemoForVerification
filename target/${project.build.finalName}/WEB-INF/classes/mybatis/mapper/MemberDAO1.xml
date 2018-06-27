@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldsoft.hlhh.web.dao.MemberDAO1">
+	<!-- namespace的作用是防止不同的xxxdao.xml中包含相同的标签id,因为即使是不同的xxxdao.xml，mybatis也不允许出现相同的sql语句id， 
+		否则mybatis不知道要调用哪个sql -->
+
+	<select id="selectMember" resultType="Member">
+      
+      select id,name,nickName,password,createdTime,modifiedTime
+        from member
+       where name=#{name};
+       
+	</select>
+	
+	
+	<insert id="insertMember">
+	  
+	  insert into member(name,nickName,password)
+	  values(#{name},#{nickName},#{password});
+	  
+	</insert>
+	
+	<update id="updateMember">
+	  
+	  update member set nickName=#{nickName},modifiedTime=now()
+	  where name=#{name};
+	  
+	</update>
+	
+	<update id="updateMemberPwd">
+	  
+	  update member set password=#{password},modifiedTime=now()
+	  where name=#{name};
+	  
+	</update>
+	
+	
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

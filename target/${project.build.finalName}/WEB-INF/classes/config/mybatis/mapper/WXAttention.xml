@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldsoft.hlhh.wx.dao.WXAttentionDAO">
+      
+    <select id="selectAllWXAttention" resultType="WXAttention">    
+      select name,count(1) as quantity
+        from WXAttention 
+       group by name 
+    </select>
+    
+    <select id="selectWXAttention" resultType="int">    
+      select count(1)
+        from WXAttention 
+       where openID=#{openID};
+    </select>
+    
+    <update id="updateWXAttention">
+      update WXAttention 
+         set name=#{name},modifiedTime=now()
+       where openID=#{openID};
+    </update>
+
+	<insert id="insertWXAttention">
+	  insert into  
+	  WXAttention(openID,name)
+	  values(#{openID},#{name})
+	</insert>
+	
+	<delete id="deleteWXAttention">
+	  delete from
+	  WXAttention
+	  where openID=#{openID};
+	</delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

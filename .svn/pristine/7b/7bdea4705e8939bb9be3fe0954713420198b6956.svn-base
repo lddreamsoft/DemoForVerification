@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldsoft.hlhh.wx.dao.WXMemberDAO">
+      
+    <select id="select" resultType="WXMember">    
+      select id,openID,createdTime,modifiedTime
+        from WXMember 
+       where openID=#{openID};
+    </select>
+    
+    <update id="update">
+      update WXMember 
+         set isSubscribed=#{isSubscribed},
+       	     modifiedTime=now()
+       where openID=#{openID};
+    </update>
+
+	<insert id="insert">
+	  insert into  
+	  WXMember(openID,isSubscribed)
+	  values(#{openID},#{isSubscribed})
+	</insert>
+	
+	<delete id="delete">
+	  delete from
+	  WXMember
+	  where openID=#{openID};
+	</delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

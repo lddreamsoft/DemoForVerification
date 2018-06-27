@@ -1,0 +1,5 @@
+#配置文件中不能包含\，否则java无法读取，WEB和WX上传文件分目录存放
+WXImageWindowsPath=D:
+WXImageLinuxPath=/
+WEBImageWindowsPath=D:
+WEBImageLinuxPath=/

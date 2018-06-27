@@ -1,0 +1,6 @@
+#配置文件中\必须写成\\，否则java直接忽略，WEB和WX上传文件分目录存放
+WEBImageWindowsPath=D:\\web
+WEBImageLinuxPath=/web/
+WXImageWindowsPath=D:\\wx
+WXImageLinuxPath=/wx/
+

@@ -1,0 +1,6 @@
+html,body,th,td
+{
+	background-color:#FFFCEA;	
+	font-family:Microsoft Yahei;
+}
+

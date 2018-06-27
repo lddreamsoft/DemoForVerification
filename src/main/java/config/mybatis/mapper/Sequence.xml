@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldsoft.hlhh.web.dao.SequenceDAO">
+
+	<select id="querySequence" resultType="long">
+      select max(value) from Sequence where name=#{name} for update;
+	</select>
+	
+	<insert id="insertSequence">
+	  insert into Sequence(name,value) values(#{name},#{value});
+	</insert>
+	
+	<update id="updateSequence">
+      update Sequence 
+         set value=value+1,modifiedTime=now()
+       where name=#{name};
+    </update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

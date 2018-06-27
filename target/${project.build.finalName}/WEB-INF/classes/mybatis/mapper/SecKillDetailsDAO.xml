@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="ldsoft.hlhh.wx.dao.SecKillDetailsDAO">
+    
+    <insert id="insertSecKill">
+    
+    <!-- 加入ignore表示如果主键冲突引起错误了，那么数据库自动不再重复插入。 -->
+    
+    insert ignore into secKill_details(seckill_id,user_phone)
+    values(#{secKillId},#{userPhone});
+    
+    
+    </insert>
+    
+    <select id="queryByIdWithSecKill" resultType="SecKillDetails">
+    
+    select  a.secKill_id "secKill.seckill_id",
+            a.name "secKill.name",
+            a.number "secKill.number",
+            a.start_time "secKill.start_time",
+            a.end_time "secKill.end_time",
+            a.create_time "secKill.create_time",
+            b.seckill_id,b.user_phone,b.state,b.create_time
+    from seckill a,seckill_details b
+    where a.seckill_id=b.seckill_id
+      and a.seckill_id=#{secKillId}
+      
+    
+    
+    </select>
+    
+    
+    </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

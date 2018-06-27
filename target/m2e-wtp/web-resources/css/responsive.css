@@ -1,0 +1,81 @@
+/*基本样式*/
+html {
+	font-size: 62.5%; /*默认字体大小*/
+	color: #222; /*浅灰色字体*/
+}
+
+/*自定义页面样式*/
+body {
+	font-size: 1.2rem;
+	line-height: 1.5rem;
+	background-color: #f7f7f7;
+}
+
+
+/*工具样式
+加入important后，则浏览器视为优先级最高，不管是在之前还是在之后设置样式，都会优先设置
+
+*/
+.center-block {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.pull-right {
+	float: right !important;
+}
+
+.pull-left {
+	float: left !important;
+}
+
+.text-right {
+	text-align: right !important;
+}
+
+.text-left {
+	text-align: left !important;
+}
+
+.text-center {
+	text-align: center !important;
+}
+
+.hide {
+	display: none !important; /*保留隐藏元素本身所占的空间*/
+}
+
+.show {
+	display: block !important;
+}
+
+.invisible {
+	visibility: hidden; /*让出隐藏元素本身所占的空间*/
+}
+
+.text-hide {
+	/*出于SEO需要，文本仍然存在，只是隐藏不显示 */
+	font: 0/0 a;
+	color: transparent;
+	text-shadow: none;
+	background-color: transparent;
+	border: 0;
+}
+
+.clearfix:before,.clearfix:after {
+	content: " ";
+	/*添加一个看不见的块级伪元素，用于清除浮动造成的父容器高度塌陷问题，背后的原理都是因为触发了BFC，触发了BFC就能清除浮动*/
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+
+
+
+
+
+

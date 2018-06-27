@@ -1,0 +1,74 @@
+/*响应式布局代码*/
+@media only screen and (max-width:800px) 
+{
+	/*如果不同分辨率有功能的不同，这里断点设置为绝对像素，否则设置为em，
+	媒体查询中em在设置时需要注意的是，
+	因为媒体查询的标签优先级高于html的代码，1em不会取16px*0.625=10px,
+	而会取浏览器默认的像素值1em=16px;
+	那么如果这里断点采用em的形式，800px=800/16=50em，而不是取80em
+	*/	
+}
+
+/*响应式布局代码*/
+@media only screen and (min-width:481px) and (max-width:800px)
+{
+	
+	
+}
+
+/*响应式布局代码 当屏幕尺寸小于480px时，第一段样式<=800的样式同样会被继承，但是第二段样式400<=x<=800不会被继承*/
+@media only screen and (max-width:480px)
+{
+	
+	
+}
+
+
+
+
+.header .top {
+	line-height: 3rem;
+	/*在line-height中使用rem有个问题，并不一定能精确控制像素值。因为chome浏览器对中文字体的最小像素大小设置为12px,
+	如果你设置的font-size小于12px，chome仍然会取最小值12px作为字体的大小。，
+	本来3rem=16px*0.625*3=30px，实际却是12px*3=36px，会多出来36像素*/
+	padding: 0 1.5rem;
+}
+
+/*选中ul中的除第一个元素之外的其它元素，加上左边框，用于实现文本分隔的效果*/
+.header .top ul li+li {
+	border-left: 1px solid #999;
+	margin-left: -3px;
+	/*ul的li之间如果标签是换行写的就会存在换行符，
+	     这个换行符在在页面显示时会显示成了一个空白字符，
+	     所以这里在每个li之前加上左边距为-3px来去掉这个换行符
+	     另外一个解决办法是设置ul的font-size为0px;同时设置li的font-size为具体的像素大小。
+	     因为空白字符的本质还是字符，字符就是可以设置font-size为0来隐藏。这种方式有负作用，会导致ul出现下边蹑。
+	     设置成-3px也有一个负作用就是并不是所有的浏览器都将空白字符解析成-3px 
+	     并没有一个完美的解决方式    	     
+    */
+}
+
+.footer ul li .icon {
+	display: inline-block;
+	text-indent: -999rem; /*文本缩进*/
+	margin-right: 1.5rem;
+	background: url(../images/sprit.png); /*雪碧图*/
+	background-size: 466px 477px;
+	overflow: hidden;
+}
+
+.footer ul li .icon-abc {
+	width: 38px;
+	width: 27px;
+	background-position: -369px -45px; /*雪碧图位置。第一个值水平位置，第二个值垂直位置*/
+	
+	background-color:rgba(255,255,255,0.9); /*让背景色透明，文字不透明*/
+	opacity:0.8; /*文字和背景色同时透明*/
+	
+	
+	/*实现文字截断不换行的效果*/
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+	
+}

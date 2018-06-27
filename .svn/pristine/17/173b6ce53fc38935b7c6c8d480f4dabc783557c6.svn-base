@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/java/config/jdbc.properties=UTF-8
+encoding//src/main/java/config/uploadFiles.properties=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/css/mainPage.css=UTF-8
+encoding//src/main/webapp/css/responsive.css=UTF-8
+encoding//src/main/webapp/js/ueditor/config.json=UTF-8
+encoding//src/main/webapp/jsp/common/css.jsp=UTF-8
+encoding//src/test/java=UTF-8
+encoding/<project>=UTF-8

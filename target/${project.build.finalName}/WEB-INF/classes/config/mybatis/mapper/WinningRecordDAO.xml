@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldsoft.hlhh.wx.dao.WinningRecordDAO">
+	<!-- namespace的作用是防止不同的xxxdao.xml中包含相同的标签id,因为即使是不同的xxxdao.xml，mybatis也不允许出现相同的sql语句id， 
+		否则mybatis不知道要调用哪个sql -->
+    
+    <update id="updateWinningRecord">
+      update activitiesWinningRecords 
+         set activityID=#{activityID},openID=#{openID},prizePictures=#{prizePictures},prizeName=#{prizeName},prizeDescription=#{prizeDescription},prizeMemberPointers=#{prizeMemberPointers},received=#{received},
+             modifiedTime=now()
+       where id=#{id};
+    </update>
+
+	<delete id="deleteWinningRecord">
+      delete from 
+	  activitiesWinningRecords
+	  where id=#{id};
+	</delete>
+
+	<insert id="insertWinningRecord">
+	  insert into
+	  activitiesWinningRecords(activityID,openID,prizeName,prizeDescription,prizeMemberPointers,prizePictures,prizeCode)
+	  values(#{activityID},#{openID},#{prizeName},#{prizeDescription},#{prizeMemberPointers},#{prizePictures},#{prizeCode});
+	</insert>
+
+	<select id="queryById" resultType="WinningRecord" parameterType="int">
+	  select id,activityID,openID,prizeName,prizeDescription,prizeMemberPointers,prizePictures,received,createdTime,modifiedTime
+	  from activitiesWinningRecords
+	  where id=#{id};
+	</select>
+	
+	<select id="isFirstDrawOfActivity" resultType="WinningRecord">
+	  select activityID
+	  from activitiesWinningRecords
+	  where id=#{activityID} and openID=#{openID} and prizeName='会员积分' and prizeDescription='活动首摇' and prizeMemberPointers='20';
+	</select>
+	
+	<!-- 查询我的奖品 按奖项汇总显示 积分不需要兑换 排序规则:未兑换、部分兑换、中奖时间、已兑换 -->
+	<select id="queryByActIDOpenID" resultType="WinningRecord">
+			
+	  select case when a.prizeMemberPointers=0 then a.prizeName else '会员积分' end name,
+			 case when a.prizeMemberPointers=0 then a.prizeDescription else a.prizeMemberPointers end description,
+             case when a.prizeMemberPointers=0 then 
+             case when sum(a.received)=count(a.received) then '已兑换' 
+             	  when sum(a.received)=0 then '未兑换' 
+             	  else '部分兑换' 
+             end else '' end receivedDesc,
+             count(1) as quantity,
+           	 max(a.createdTime) as createdTime
+	    from activitiesWinningRecords a   
+       where a.activityID=#{activityID}
+         and a.openID=#{openID}
+    #group by a.prizeName,a.prizeDescription,a.prizeMemberPointers 会员积分20的商品存在管理后台未定义的首抽必中商品，这里特殊处理
+    group by (case when a.prizeMemberPointers=20 then 1 else a.prizeName end),(case when a.prizeMemberPointers=20 then 1 else a.prizeDescription end),a.prizeMemberPointers
+    order by (
+    case when sum(a.received)=count(a.received) then 0
+             	  when sum(a.received)=0 then 2 
+             	  else 1 
+             end
+    ) desc,max(a.createdTime) desc;
+    
+	
+	</select>
+
+	<select id="queryAll" resultType="WinningRecord">
+	
+	  select b.id,b.activityID,b.openID,b.prizeMemberPointers,b.prizeName as name,b.prizeDescription as description,
+	  	     b.received,b.createdTime,b.modifiedTime
+	    from activities a
+  inner join activitiesWinningRecords b on a.id=b.activityID
+       where a.id=#{activityID}	
+       order by b.createdTime desc
+        limit #{offset},#{limit}
+      
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

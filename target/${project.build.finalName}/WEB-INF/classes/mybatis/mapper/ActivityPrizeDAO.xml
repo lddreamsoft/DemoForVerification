@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ldsoft.hlhh.web.dao.ActivityPrizeDAO">
+	<!-- namespace的作用是防止不同的xxxdao.xml中包含相同的标签id,因为即使是不同的xxxdao.xml，mybatis也不允许出现相同的sql语句id， 
+		否则mybatis不知道要调用哪个sql -->
+    
+    <update id="deductActivityPrizeStock">
+      update prizes 
+         set stock=stock-1,
+             modifiedTime=now()
+       where id=#{prizeID}
+         and stock>0;
+    </update>
+    
+	<delete id="deleteActivityPrize">
+		delete from 
+		activitiesPrizes
+		where activityID=#{activityID} and prizeID=#{prizeID};
+	</delete>
+
+	<insert id="insertActivityPrize">
+		insert into
+		activitiesPrizes(activityID,prizeID)
+		values(#{activityID},#{prizeID});
+	</insert>
+
+    <!-- 查询某一活动下的所有奖品 -->
+	<select id="queryById" resultType="Prize">
+	  select b.id,b.orderNumber,b.name,b.pictures,b.description,b.limits,b.stock,b.chance,b.chance1,b.chance2
+		from activitiesPrizes a
+   left join prizes b on a.prizeID=b.ID
+	   where activityID=#{activityID}	   
+	   
+	   <if test="0==fromMg">    
+         and b.stock>0
+       </if> 
+                
+	   order by b.chance
+	</select>
+
+
+	<select id="queryCountById" resultType="int">
+	  select count(1)
+		from activitiesPrizes a
+   left join prizes b on a.prizeID=b.ID
+	   where activityID=#{activityID}	   
+	   
+	   <if test="0==fromMg">    
+         and b.stock>0
+       </if> 
+       
+	</select>
+	
+	<select id="queryByIdPageInfo" resultType="Prize">
+	
+	select k.id,k.orderNumber,k.name,k.pictures,k.description,k.limits,k.stock,k.chance,k.chance1,k.chance2 
+	  from prizes k 
+inner join (select b.id
+			  from activitiesPrizes a
+   		 left join prizes b on a.prizeID=b.ID
+	   		 where activityID=#{activityID}
+	   	     <if test="0==fromMg">    
+         		and b.stock>0
+       		 </if> 
+			 limit #{startIndex},#{pageSize}
+		   ) k1 on k.id=k1.id
+	   order by k.chance
+	</select>
+	
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

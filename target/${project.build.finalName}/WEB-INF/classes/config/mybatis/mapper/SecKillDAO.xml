@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="ldsoft.hlhh.wx.dao.SecKillDAO"> 
+    <!-- namespace的作用是防止不同的xxxdao.xml中包含相同的标签id,因为即使是不同的xxxdao.xml，mybatis也不允许出现相同的sql语句id，
+                 否则mybatis不知道要调用哪个sql -->
+    
+    
+    <update id="reduceNumber">
+    
+    
+    update secKill
+    set number= number-1
+    where seckill_id=#{secKillId} 
+    and number>0;
+    
+    
+    </update>
+    
+    <select id="queryById" resultType="SecKill" parameterType="long">
+    
+    select secKill_id,name,number,start_time,end_time,create_time
+    from seckill
+    where secKill_id=#{secKillId};
+    
+    
+    </select>
+    
+    <select id="queryAll" resultType="SecKill">
+
+  select secKill_id,name,number,start_time,end_time,create_time
+    from seckill
+    order by create_time desc
+    limit #{offset},#{limit}
+    
+    </select>
+    
+    
+    </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

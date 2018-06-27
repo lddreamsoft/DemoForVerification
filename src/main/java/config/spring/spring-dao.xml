@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+<!-- 配置整合mybatis -->
+
+<!-- 配置读取外部文本文件 -->
+<context:property-placeholder location="classpath:config/*.properties"/>
+
+<bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+
+<property name="driverClass" value="${driver}"> </property>
+<property name="jdbcUrl" value="${url}"> </property>
+<!--这两个属性在配置文件中无法读取，不清楚为什么
+<property name="user" value="${user}"> </property>
+<property name="password" value="${password}"> </property>
+  -->
+
+<property name="maxPoolSize" value="30"> </property>
+<property name="minPoolSize" value="10"> </property>
+<property name="autoCommitOnClose" value="false"> </property>
+<property name="checkoutTimeout" value="1000"> </property>
+<property name="acquireRetryAttempts" value="2"> </property>
+
+</bean>
+
+<!-- 配置sqlsessionFactory对象 -->
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
+<!--注入数据库连接池-->
+<property name="dataSource" ref="datasource"></property>
+
+<!-- 配置mybatis全局配置文件 -->
+<property name="configLocation" value="classpath:config/mybatis/mybatis-config.xml"></property>
+
+<!-- 自动扫描Entity包，这样mybatis xxxdao.xml引用的时候不用输入包名 -->
+<property name="typeAliasesPackage" value="ldsoft.hlhh.web.entity,ldsoft.hlhh.wx.entity"></property>
+
+<property name="mapperLocations" value="classpath:config/mybatis/mapper/*.xml"></property>
+
+</bean>
+
+
+<!-- 动态实现DAO接口，不需要提供实现类，并自动注入到spring容器中 -->
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+
+<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+<property name="basePackage" value="ldsoft.hlhh.web.dao,ldsoft.hlhh.wx.dao"></property>
+
+</bean>
+
+
+
+
+</beans>
